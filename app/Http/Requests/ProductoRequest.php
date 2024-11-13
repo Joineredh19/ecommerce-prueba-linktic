@@ -26,10 +26,11 @@ class ProductoRequest extends FormRequest
             'descripcion' => 'required|string',
             'precio' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'codigo' => 'required|string|unique:productos,codigo,' . $this->producto?->id,
-            'active' => 'boolean'
+            'codigo' => 'required|string|unique:productos,codigo,' . $this->productos?->id,
+            'activo' => 'boolean'
         ];
 
         return $rules;
     }
 }
+

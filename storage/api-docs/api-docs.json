@@ -1,0 +1,315 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Prueba Tecnica LinkTic ",
+        "description": "API documentation Prueba Tecnica",
+        "contact": {
+            "email": "joineredh@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000/",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/api/ordenes": {
+            "get": {
+                "tags": [
+                    "Ordenes"
+                ],
+                "summary": "Listar todas las ordenes",
+                "operationId": "33b7983981a51c276cd05a73e3f175d9",
+                "responses": {
+                    "200": {
+                        "description": "Lista de Ordenes"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Ordenes"
+                ],
+                "summary": "Crear una nueva orden",
+                "operationId": "99be0a0ea2b10f931b075dab48eb78ba",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrdenRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Orden creada Exitosamente"
+                    }
+                }
+            }
+        },
+        "/api/ordenes/{id}": {
+            "get": {
+                "tags": [
+                    "Ordenes"
+                ],
+                "summary": "Obtener Orden por ID",
+                "operationId": "6cd37586488e5e59e941d3be6f97fcaa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles ordenes"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Ordenes"
+                ],
+                "summary": "Actualizar estado orden",
+                "operationId": "d80491cc2681e4dd8c64722164e607e1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "estado": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pendiente",
+                                            "procesando",
+                                            "completado",
+                                            "cancelado"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Orden actualizada exitosamente"
+                    }
+                }
+            }
+        },
+        "/api/productos": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Lista todos los productos",
+                "operationId": "70a301af8ea04ce2f2596a58758632cd",
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Crear un nuevo producto",
+                "operationId": "4ff8851cb6bfe92aa226cdc804917ff0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductoRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto creado exitosamente"
+                    }
+                }
+            }
+        },
+        "/api/productos/{id}": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Obtener un producto por ID",
+                "operationId": "1884f1fc784a80f4976ac9c8d4ce887b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle Producto"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Actualizar un producto",
+                "operationId": "20275afdbab1759ad2d46f3dcfbeaeeb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ProductoRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto actualizado exitosamente"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Eliminar un producto",
+                "operationId": "ea733033fbff1681e04f8c4d0e11e0bc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto eliminado exitosamente"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ProductoRequest": {
+                "required": [
+                    "nombre",
+                    "descripcion",
+                    "precio",
+                    "stock",
+                    "codigo"
+                ],
+                "properties": {
+                    "nombre": {
+                        "type": "string"
+                    },
+                    "descripcion": {
+                        "type": "string"
+                    },
+                    "precio": {
+                        "type": "number"
+                    },
+                    "stock": {
+                        "type": "integer"
+                    },
+                    "codigo": {
+                        "type": "string"
+                    },
+                    "activo": {
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "OrdenRequest": {
+                "required": [
+                    "items"
+                ],
+                "properties": {
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "required": [
+                                "producto_id",
+                                "cantidad"
+                            ],
+                            "properties": {
+                                "producto_id": {
+                                    "type": "integer"
+                                },
+                                "cantidad": {
+                                    "type": "integer"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "estado": {
+                        "type": "string",
+                        "enum": [
+                            "pendiente",
+                            "procesando",
+                            "completado",
+                            "cancelado"
+                        ]
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Productos",
+            "description": "API Endpoints de Productos"
+        },
+        {
+            "name": "Ordenes",
+            "description": "Ordenes"
+        }
+    ]
+}
