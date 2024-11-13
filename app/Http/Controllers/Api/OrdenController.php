@@ -15,12 +15,39 @@ class OrdenController extends Controller
 {
     use ApiRespuesta;
 
+ /**
+     * @OA\Get(
+     *     path="/api/ordenes",
+     *     summary="Listar todas las ordenes",
+     *     tags={"Ordenes"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de Ordenes"
+     *     )
+     * )
+     */
+
     public function index()
     {
         $ordenes = Orden::with('items.producto')->paginate(10);
         return $this->successResponse($ordenes);
     }
 
+/**
+     * @OA\Post(
+     *     path="/api/ordenes",
+     *     summary="Crear una nueva orden",
+     *     tags={"Ordenes"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/OrdenRequest")
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Orden creada Exitosamente"
+     *     )
+     * )
+     */
 
     public function store(OrdenRequest $request)
     {
@@ -43,11 +70,11 @@ class OrdenController extends Controller
                 $ordenItem = new OrdenItem([
                     'producto_id' => $producto->id,
                     'cantidad' => $item['cantidad'],
-                    'precio' => $producto->price
+                    'precio' => $producto->precio
                 ]);
 
                 $orden->items()->save($ordenItem);
-                $montoTotal += ($producto->price * $item['cantidad']);
+                $montoTotal += ($producto->precio * $item['cantidad']);
 
                 // Actualizar stock
                 $producto->stock -= $item['cantidad'];
@@ -66,11 +93,53 @@ class OrdenController extends Controller
     }
 
 
+        /**
+     * @OA\Get(
+     *     path="/api/ordenes/{id}",
+     *     summary="Obtener Orden por ID",
+     *     tags={"Ordenes"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalles ordenes"
+     *     )
+     * )
+     */
+
     public function show(Orden $orden)
     {
         return $this->successResponse($orden->load('items.producto'));
     }
 
+
+        /**
+     * @OA\Put(
+     *     path="/api/ordenes/{id}",
+     *     summary="Actualizar estado orden",
+     *     tags={"Ordenes"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="estado", type="string", enum={"pendiente", "procesando", "completado", "cancelado"})
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Orden actualizada exitosamente"
+     *     )
+     * )
+     */
 
     public function update(Request $request, Orden $orden)
     {

@@ -15,8 +15,5 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::group(['prefix' => 'api'], function () {
     Route::apiResource('productos', ProductoController::class);
     Route::apiResource('ordenes', OrdenController::class);
-});
