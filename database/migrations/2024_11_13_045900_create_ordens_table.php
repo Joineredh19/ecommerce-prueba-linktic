@@ -13,8 +13,14 @@ return new class extends Migration
     {
         Schema::create('ordens', function (Blueprint $table) {
             $table->id();
+            $table->string('numero_orden')->unique();
+            $table->decimal('monto_total', 10, 2);
+            $table->enum('estado', ['pendiente', 'procesando', 'completado', 'cancelado']);
             $table->timestamps();
+            $table->softDeletes();
         });
+
+
     }
 
     /**
