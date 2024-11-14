@@ -118,6 +118,44 @@ Para regenerar la documentación:
 php artisan l5-swagger:generate
 ```
 
+## Endpoints de Exportación
+
+### Exportar Productos
+```http
+GET /api/productos/exportar
+```
+
+#### Respuesta
+- Archivo Excel (.xlsx) con los siguientes campos:
+  - ID
+  - Nombre
+  - Descripción
+  - Precio (formateado con símbolo de moneda)
+  - Stock
+  - Fecha de Creación
+  - Última Actualización
+
+### Exportar Órdenes
+```http
+GET /api/ordenes/exportar
+```
+
+#### Respuesta
+- Archivo Excel (.xlsx) con los siguientes campos:
+  - ID
+  - Número de Orden
+  - Estado
+  - Monto Total (formateado con símbolo de moneda)
+  - Productos (lista con cantidades)
+  - Fecha de Creación
+  - Última Actualización
+
+## Formato de los Archivos
+- Las fechas se muestran en formato dd/mm/yyyy HH:mm
+- Los valores monetarios incluyen el símbolo de moneda y dos decimales
+- Los encabezados están en negrita con fondo gris
+- Para las órdenes, los productos se muestran con sus cantidades respectivas
+
 ## Manejo de Errores
 
 El sistema implementa un manejo de errores consistente con los siguientes códigos HTTP:
@@ -129,7 +167,6 @@ El sistema implementa un manejo de errores consistente con los siguientes códig
 - 422: Error de validación
 - 500: Error interno del servidor
 
-
 ## Características Adicionales
 
 - Paginación automática en listados
@@ -137,3 +174,4 @@ El sistema implementa un manejo de errores consistente con los siguientes códig
 - Manejo de transacciones en operaciones críticas
 - Soft deletes para productos y órdenes
 - Documentación API con Swagger
+- Exportación Excel
