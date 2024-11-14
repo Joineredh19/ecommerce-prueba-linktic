@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exports\ProductosExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductoRequest;
 use App\Models\Producto;
 use App\Traits\ApiRespuesta;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 /**
  * @OA\Tag(
@@ -129,5 +131,41 @@ class ProductoController extends Controller
     {
         $producto->delete();
         return $this->successResponse(null, 'Producto eliminado exitosamente');
+    }
+
+
+    /**
+ * @OA\Get(
+ *     path="/api/productos/exportar",
+ *     summary="Exportar productos a Excel",
+ *     tags={"Productos"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Archivo Excel con listado de productos",
+ *         @OA\MediaType(
+ *             mediaType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+ *             @OA\Schema(type="string", format="binary")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error en la exportación",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Error al exportar productos"),
+ *             @OA\Property(property="error", type="string", example="Error detallado del sistema")
+ *         )
+ *     ),
+ * )
+ */
+    public function export()
+    {
+        try {
+            return Excel::download(new ProductosExport, 'productos.xlsx');
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al exportar productos',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

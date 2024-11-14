@@ -118,6 +118,48 @@
                 }
             }
         },
+        "/api/ordenes/exportar": {
+            "get": {
+                "tags": [
+                    "Ordenes"
+                ],
+                "summary": "Exportar órdenes a Excel",
+                "operationId": "e29a838a68bf73a2b47360d53b700bee",
+                "responses": {
+                    "200": {
+                        "description": "Archivo Excel con listado de órdenes",
+                        "content": {
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en la exportación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error al exportar órdenes"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error detallado del sistema"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/productos": {
             "get": {
                 "tags": [
@@ -228,6 +270,48 @@
                 "responses": {
                     "200": {
                         "description": "Producto eliminado exitosamente"
+                    }
+                }
+            }
+        },
+        "/api/productos/exportar": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Exportar productos a Excel",
+                "operationId": "91010426c938559256c812e9bdbad812",
+                "responses": {
+                    "200": {
+                        "description": "Archivo Excel con listado de productos",
+                        "content": {
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en la exportación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error al exportar productos"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error detallado del sistema"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }

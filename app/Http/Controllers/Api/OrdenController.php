@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exports\OrdenesExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrdenRequest;
 use App\Models\Orden;
@@ -10,6 +11,7 @@ use App\Models\Producto;
 use App\Traits\ApiRespuesta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrdenController extends Controller
 {
@@ -157,5 +159,40 @@ class OrdenController extends Controller
     public function destroy(Orden $orden)
     {
         //
+    }
+
+/**
+ * @OA\Get(
+ *     path="/api/ordenes/exportar",
+ *     summary="Exportar órdenes a Excel",
+ *     tags={"Ordenes"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Archivo Excel con listado de órdenes",
+ *         @OA\MediaType(
+ *             mediaType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+ *             @OA\Schema(type="string", format="binary")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error en la exportación",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Error al exportar órdenes"),
+ *             @OA\Property(property="error", type="string", example="Error detallado del sistema")
+ *         )
+ *     ),
+ * )
+ */
+    public function export()
+    {
+        try {
+            return Excel::download(new OrdenesExport, 'ordenes.xlsx');
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al exportar órdenes',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
